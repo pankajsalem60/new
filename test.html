@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- Meta Tags -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Page Title -->
+    <title>AARUMILA</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <!-- Animations CSS -->
+    <link rel="stylesheet" href="css/animate.min.css">
+
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Nivo Lightbox CSS -->
+    <link rel="stylesheet" href="css/nivo-lightbox.css">
+    <link rel="stylesheet" href="css/nivo_themes/default/default.css">
+
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+   
+
+
+    <style>
+/* Popup Modal Styling */
+/* Centering the Popup */
+.popup-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    max-width: 600px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+/* Show the Popup */
+.popup-modal.show {
+    display: block;
+}
+
+/* Close Button */
+.close-popup {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #333;
+}
+
+/* Popup Content */
+.popup-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Popup Body: Image + Details */
+.popup-body {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Image Styling */
+.popup-image {
+    width: 180px;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Details Section */
+.popup-details {
+    flex-grow: 1;
+    text-align: left;
+}
+
+/* Product Name */
+.popup-details h2 {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+/* Price */
+.price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #1C1F25;
+}
+
+/* Nutrition Facts */
+.nutrition-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.nutrition-list li {
+    background: #f5f5f5;
+    padding: 8px;
+    border-radius: 5px;
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* Add to Cart Button */
+.add-to-cart {
+    background: #1C1F25;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.add-to-cart:hover {
+    background: #1C1F25;
+}
+
+
+        #voice-order {
+   position: relative;
+   padding: 20px;
+   background-color: #f8f9fa;
+   text-align: center;
+ }
+
+ h2 {
+   margin-bottom: 20px;
+   font-size: 24px;
+ }
+
+ #waiter-animation {
+   position: relative;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 500px;
+   height: 500px; /* Circular container size */
+   margin: 20px auto;
+ }
+
+ #waiter {
+   position: relative;
+   width: 300px; /* Increased size */
+   height: 300px;
+   border-radius: 50%;
+   border: 4px solid #ddd;
+   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+ }
+
+ .command {
+   position: absolute;
+   font-size: 14px;
+   color: #333;
+   background: rgba(255, 215, 0, 0.1);
+   padding: 10px;
+   border-radius: 20px;
+   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+   cursor: pointer;
+   transition: background-color 0.3s ease;
+ }
+
+ .command:hover {
+   background: rgba(255, 215, 0, 0.3);
+ }
+
+ /* Tooltip for commands */
+ .command:hover::after {
+   content: attr(data-guide); /* Tooltip content from data attribute */
+   position: absolute;
+   top: 120%; /* Position below the text */
+   left: 50%;
+   transform: translateX(-50%);
+   background: #333;
+   color: #fff;
+   font-size: 12px;
+   padding: 5px 8px;
+   border-radius: 5px;
+   white-space: nowrap;
+   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+   opacity: 1;
+   visibility: visible;
+   transition: opacity 0.3s ease;
+ }
+
+ /* Ensure tooltips are hidden by default */
+ .command::after {
+   content: '';
+   opacity: 0;
+   visibility: hidden;
+ }
+
+ /* Circular positions for commands */
+ .command:nth-child(1) {
+   top: 0;
+   left: 50%;
+   transform: translate(-50%, -50%);
+ }
+
+ .command:nth-child(2) {
+   top: 20%;
+   left: 85%;
+   transform: translate(-50%, -50%);
+ }
+
+ .command:nth-child(3) {
+   top: 50%;
+   left: 100%;
+   transform: translate(-50%, -50%);
+ }
+
+ .command:nth-child(4) {
+   top: 80%;
+   left: 85%;
+   transform: translate(-50%, -50%);
+ }
+
+ .command:nth-child(5) {
+   bottom: 0;
+   left: 50%;
+   transform: translate(-50%, 50%);
+ }
+
+ .command:nth-child(6) {
+   top: 80%;
+   left: 15%;
+   transform: translate(-50%, -50%);
+ }
+
+ .command:nth-child(7) {
+   top: 50%;
+   left: 0%;
+   transform: translate(-50%, -50%);
+ }
+
+ .command:nth-child(8) {
+   top: 20%;
+   left: 15%;
+   transform: translate(-50%, -50%);
+ }
+
+ /* Voice Order Button Styling */
+ #startVoiceOrder {
+   margin-top: 20px;
+   padding: 12px 20px;
+   background-color: #007bff;
+   color: #fff;
+   font-size: 16px;
+   border: none;
+   border-radius: 8px;
+   cursor: pointer;
+   transition: background-color 0.3s ease, transform 0.3s ease;
+ }
+
+ #startVoiceOrder:hover {
+   background-color: #0056b3;
+   transform: scale(1.1);
+ }
+
+ /* Mobile Responsive */
+ @media (max-width: 768px) {
+   #waiter-animation {
+     width: 300px;
+     height: 300px;
+   }
+
+   #waiter {
+     width: 200px;
+     height: 200px;
+   }
+
+   .command {
+     font-size: 12px;
+     padding: 6px;
+   }
+
+   #startVoiceOrder {
+     font-size: 14px;
+     padding: 10px 15px;
+   }
+ }
+  
+        header nav {
+            background-color: #333;
+            padding: 10px;
+        }
+        header nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        /* Gallery Section */
+        #gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .gallery-category {
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .gallery-category:hover {
+            transform: scale(1.05);
+        }
+
+        /* Voice Order */
+        .voice-order-section {
+            text-align: center;
+            margin-top: 50px;
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .voice-order-button {
+            padding: 15px 25px;
+            font-size: 16px;
+            color: white;
+            background-color: #757676;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .voice-order-button:hover {
+            background-color: #757676;
+            transform: scale(1.05);
+        }
+
+        .response-box {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .voice-order-section h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .navbar {
+            background-color: #1c1f25;
+            color: white;
+        }
+
+        .navbar-brand {
+            color: #FF6347;
+        }
+
+        .navbar-nav > li > a {
+            color: white;
+        }
+
+        .navbar-nav > li > a:hover {
+            background-color: #FF4500;
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader Section -->
+    <section class="preloader">
+        <div class="sk-spinner sk-spinner-pulse"></div>
+    </section>
+
+    <!-- Navigation Section -->
+    <section class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="#" class="navbar-brand">AARUMILA</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#home" class="smoothScroll">HOME</a></li>
+                    <li><a href="#gallery" class="smoothScroll">FOOD GALLERY</a></li>
+                    <li><a href="#voice-order" class="smoothScroll">VOICE ORDER</a></li>
+                    <li><a href="#shopping-cart" class="smoothScroll">MAIN MENU</a></li>
+                    <li><a href="#contact" class="smoothScroll">CONTACT</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Home Section -->
+    <section id="home" class="parallax-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <h1>AARUMILA RESTAURANT</h1>
+                    <h2>CLEAN &amp; SIMPLE DESIGN</h2>
+                    <a href="#gallery" class="smoothScroll btn btn-default">LEARN MORE</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="parallax-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-2 col-md-8 col-sm-12 text-center">
+                    <h1 class="heading">Food Gallery</h1>
+                    <hr>
+                </div>
+                <!-- Gallery Items -->
+                <div class="col-md-4 col-sm-4 gallery-category" onclick="filterCategory('maharashtra')">
+                    <img src="images/maharashtra .jpg" alt="Maharashtra">
+                    <div><h3>Maharashtrian Special</h3></div>
+                </div>
+                <div class="col-md-4 col-sm-4 gallery-category" onclick="filterCategory('south-indian')">
+                    <img src="images/south-idian.jpg" alt="South Indian">
+                    <div><h3>South Indian Special</h3></div>
+                </div>
+                <div class="col-md-4 col-sm-4 gallery-category" onclick="filterCategory('north-indian')">
+                    <img src="images/north-india.jpg" alt="North Indian">
+                    <div><h3>North Indian Special</h3></div>
+                </div>
+                <div class="col-md-4 col-sm-4 gallery-category" onclick="filterCategory('chinese')">
+                    <img src="images/chinese.jpg" alt="Chinese">
+                    <div><h3>Chinese Special</h3></div>
+                </div>
+                <div class="col-md-4 col-sm-4 gallery-category" onclick="filterCategory('desserts')">
+                    <img src="images/desserts.jpg" alt="Desserts">
+                    <div><h3>Desserts</h3></div>
+                </div>
+                <div class="col-md-4 col-sm-4 gallery-category" onclick="filterCategory('hot-cold')">
+                    <img src="images/hotcold.jpg" alt="Hot-Cold Drinks">
+                    <div><h3>Hot-Cold Drinks</h3></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Voice Order Section -->
+    <section id="voice-order" class="parallax-section text-center">
+        <h2>Place Your Voice Order</h2>
+        <div id="waiter-animation">
+            <img id="waiter" src="images/waiter_prev_ui.png" alt="Animated Waiter">
+            <div class="command" data-guide="Scroll the page up">Scroll Up</div>
+            <div class="command" data-guide="Scroll the page down">Scroll Down</div>
+            <div class="command" data-guide="Add a product to the cart">Add Item</div>
+            <div class="command" data-guide="Remove a product from the cart">Remove Item</div>
+            <div class="command" data-guide="Open the shopping cart">Open Cart</div>
+            <div class="command" data-guide="Close the shopping cart">Close Cart</div>
+            <div class="command" data-guide="Finalize your order">Check Out</div>
+        </div>
+        <button id="startVoiceOrder" class="btn btn-primary">Start Voice Order</button>
+        <div id="voiceResponse" class="response-box">Waiting for your order...</div>
+    </section>
+
+    <!-- Shopping Cart Section -->
+    <section id="shopping-cart">
+        <div class="container">
+            <div class="shopping-cart"></div>
+            <header>
+                <h1></h1>
+                <div class="shopping">
+                    <img src="images/shopping.svg">
+                    <span class="quantity">0</span>
+                </div>
+            </header>
+            <div class="list"></div>
+        </div>
+        <div class="card">
+            <h1>Card</h1>
+            <ul class="listCard"></ul>
+            <div class="checkOut">
+                <div class="total">₹0</div>
+                <div class="closeShopping">Close</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Review Section -->
+<section id="review" class="parallax-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-1 col-md-10 col-sm-12 text-center">
+                <h1 class="heading">Review Us</h1>
+                <hr>
+            </div>
+            <div class="col-md-offset-1 col-md-10 col-sm-12">
+                <form id="reviewForm">
+                    <div class="col-md-6 col-sm-6">
+                        <input name="name" type="text" class="form-control" id="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <input name="email" type="email" class="form-control" id="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <textarea name="review" rows="5" class="form-control" id="review" placeholder="Write your review here..." required></textarea>
+                    </div>
+                    <div class="col-md-offset-3 col-md-6 col-sm-offset-3 col-sm-6">
+                        <input type="submit" class="form-control" id="submit" value="Submit Review">
+                    </div>
+                </form>
+                <div id="reviewMessage" class="text-center" style="display: none; margin-top: 20px;">
+                    <p style="color: green; font-weight: bold;">Your review has been added successfully!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.getElementById("reviewForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        document.getElementById("reviewMessage").style.display = "block";
+        document.getElementById("reviewForm").reset();
+    });
+</script>
+
+
+    <!-- Footer Section -->
+    <footer class="parallax-section">
+        <div class="container">
+            <div class="row">
+                <!-- Contact Info Section -->
+                <div class="col-md-4 col-sm-4">
+                    <h2 class="heading">Contact Info</h2>
+                    <p><i class="fa fa-phone"></i> Phone: 090-080-0760</p>
+                    <p><i class="fa fa-map-marker"></i> Location: Maharashtra, India</p>
+                </div>
+                <!-- Open Hours Section -->
+                <div class="col-md-4 col-sm-4">
+                    <h2 class="heading">Open Hours</h2>
+                    <p>Sunday: 10:30 AM - 10:00 PM</p>
+                    <p>Mon-Fri: 9:00 AM - 8:00 PM</p>
+                    <p>Saturday: 11:30 AM - 10:00 PM</p>
+                </div>
+                <!-- Social Media Links -->
+                <div class="col-md-4 col-sm-4">
+                    <h2 class="heading">Follow Us</h2>
+                    <ul class="social-icon">
+                        <li><a href="#" class="fa fa-facebook"></a></li>
+                        <li><a href="#" class="fa fa-twitter"></a></li>
+                        <li><a href="#" class="fa fa-github"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.parallax.js"></script>
+    <script src="js/smoothscroll.js"></script>
+    <script src="js/wow.min.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="js/app.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="path/to/parallax-plugin.js"></script>
+
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <input type="text" name="username" autocomplete="username">
+
+
+
+    <!-- Smooth Scroll Script -->
+    <script>
+        $(document).ready(function() {
+            $('a.smoothScroll').on('click', function(event) {
+                if (this.hash !== "") {
+                    event.preventDefault();
+                    var hash = this.hash;
+                    $('html, body').animate({
+                        scrollTop: $(hash).offset().top
+                    }, 800, function(){
+                        window.location.hash = hash;
+                    });
+                }
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/annyang@2.6.0/dist/annyang.min.js"></script>
+
+    <script>
+        if (annyang) {
+            // Voice commands
+            var commands = {
+                'scroll up': () => {
+                    window.scrollBy(0, -100);
+                    updateResponse('Scrolling up...');
+                },
+                'scroll down': () => {
+                    window.scrollBy(0, 800);
+                    updateResponse('Scrolling down...');
+                },
+                'scroll cart up': () => {
+                    scrollElement('.listCard', 'up');
+                    updateResponse('Scrolling cart up...');
+                },
+                'scroll cart down': () => {
+                    scrollElement('.listCard', 'down');
+                    updateResponse('Scrolling cart down...');
+                },
+                'show *productName': (productName) => {
+                    showProductDetails(productName);
+                    updateResponse(`Showing details for: ${productName}`);
+                },
+                'open cart': function() {
+                    openCart();
+                    updateResponse('Opening cart...');
+                },
+                'close cart': () => {
+                    closeCart();
+                    updateResponse('Closing cart...');
+                },
+                'home': () => {
+                    navigateToSection('#home');
+                    updateResponse('Navigating to home...');
+                },
+                'show gallery': () => {
+                    navigateToSection('#gallery');
+                    updateResponse('Navigating to gallery...');
+                },
+                'voice order': () => {
+                    navigateToSection('#voice-order');
+                    updateResponse('Navigating to voice order...');
+                },
+                'main menu': () => {
+                    navigateToSection('#shopping-cart');
+                    updateResponse('Navigating to main menu...');
+                },
+                'contact': () => {
+                    navigateToSection('#contact');
+                    updateResponse('Navigating to contact...');
+                },
+                'check out': () => {
+                    const totalBill = calculateTotalBill();
+                    if (totalBill > 0) {
+                        const message = `Your total bill is ₹${totalBill}. Thank you for your order!`;
+                        speak(message);
+                        updateResponse(message);
+                    } else {
+                        const message = "Your cart is empty. Please add items to your cart before checking out.";
+                        speak(message);
+                        updateResponse(message);
+                    }
+                },
+                'help': () => {
+                    const helpMessage = "Available commands: scroll up, scroll down, show [product name], open cart, close cart, check out, and navigate sections like home or gallery.";
+                    updateResponse(helpMessage);
+                    speak(helpMessage);
+                },
+                '*phrase': (phrase) => {
+                    updateResponse(`Unrecognized command: "${phrase}". Please try again.`);
+                    speak(`I'm sorry, I didn't understand the command: ${phrase}`);
+                }
+            };
+            annyang.addCommands(commands);
+            document.getElementById('startVoiceOrder').addEventListener('click', () => {
+                const currentHour = new Date().getHours();
+                let greeting;
+                if (currentHour >= 5 && currentHour < 12) {
+                    greeting = 'Good Morning!';
+                } else if (currentHour >= 12 && currentHour < 18) {
+                    greeting = 'Good Afternoon!';
+                } else {
+                    greeting = 'Good Evening!';
+                }
+                const msg = new SpeechSynthesisUtterance(`${greeting} Please place your order.`);
+                speechSynthesis.speak(msg);
+                document.getElementById('voiceResponse').textContent = 'Listening for commands...';
+                annyang.start();
+            });
+        }
+        function updateResponse(message) {
+            const responseBox = document.getElementById('voiceResponse');
+            responseBox.textContent = message;
+        }
+        // Show product by name (click product image)
+    function showProductByName(productName) {
+        const productItem = [...document.querySelectorAll('.item')].find(item =>
+            item.querySelector('.title').innerText.trim().toLowerCase() === productName.trim().toLowerCase()
+        );
+        if (productItem) {
+            const productImage = productItem.querySelector('.product-image');
+            if (productImage) {
+                productImage.click();  // Click the image to open product details
+            } else {
+                updateResponse(`Product "${productName}" found but image not clickable.`);
+            }
+        } else {
+            updateResponse(`Product "${productName}" not found.`);
+        }
+    }
+
+        function closeProductModal() {
+            document.getElementById('productModal').style.display = 'none';
+        }
+        function navigateToSection(anchor) {
+            const link = document.querySelector(`a[href="${anchor}"]`);
+            if (link) {
+                link.click();
+            } else {
+                updateResponse(`Section "${anchor}" not found.`);
+            }
+        }
+        function openCart() {
+            const cartElement = document.querySelector(".card");
+            if (cartElement) {
+                cartElement.style.display = "block";
+            } else {
+                alert("Cart not found!");
+            }
+        }
+        function closeCart() {
+            const cartElement = document.querySelector(".card");
+            if (cartElement) {
+                cartElement.style.display = "none";
+            } else {
+                updateResponse("Cart not found!");
+            }
+        }
+        function speak(message) {
+            const msg = new SpeechSynthesisUtterance(message);
+            speechSynthesis.speak(msg);
+        }
+        if (annyang) {
+            annyang.debug(true);
+            annyang.addCallback('error', function (error) {
+                console.error('Speech recognition error:', error);
+            });
+            annyang.addCallback('errorPermissionBlocked', function () {
+                console.error('Microphone access was blocked.');
+            });
+            annyang.addCallback('errorPermissionDenied', function () {
+                console.error('Microphone access was denied.');
+            });
+            annyang.addCallback('resultMatch', function (userSaid, commandText, phrases) {
+                console.log('User said: ', userSaid);
+                console.log('Command text: ', commandText);
+                console.log('Phrases: ', phrases);
+            });
+        }
+    </script>
+
+    
+</body>
+</html>
